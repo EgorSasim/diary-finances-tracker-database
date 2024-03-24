@@ -15,7 +15,7 @@ if ! docker info &> /dev/null; then
   else
     echo "Error starting Docker. Please check logs for details."
     echo $(sudo systemctl status docker)
-    exit 1  # Exit script if Docker failed to start
+    exit 1
   fi
 fi
 
@@ -30,11 +30,9 @@ echo "echo stop & remove old docker [$SERVER] and starting new fresh instance of
   -p 5432:5432 \
   -d postgres
 
-# wait for pg to start
 echo "sleep wait for pg-server [$SERVER] to start";
 sleep 3;
 
-# create the db 
 echo "CREATE DATABASE $DB ENCODING 'UTF-8';" | docker exec -i $SERVER psql -U postgres
 echo "\l" | docker exec -i $SERVER psql -U postgres
 
